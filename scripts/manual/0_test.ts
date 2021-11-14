@@ -5,18 +5,18 @@ import { Contract } from "ethers";
 
 async function main() {
     const [owner] = await ethers.getSigners();
-    console.log("Upgrading contracts with the account:", owner.address);
+    console.log("Deploying contracts with the account:", owner.address);
     console.log("Account balance:", (await owner.getBalance()).toString());
 
-    const boxAddress = '0xDfB3cf8D499912Fc837bAc755D1f350491AB00ED';
+    let box: Contract;
 
-    const deploy = async () => {
-        const BoxV2 = await ethers.getContractFactory('BoxV2');
-        console.log('Upgrading Box...');
-        await upgrades.upgradeProxy(boxAddress, BoxV2);
-    };
+    const Box = await ethers.getContractFactory("Box");
+    box = Box.attach("0xDfB3cf8D499912Fc837bAc755D1f350491AB00ED");
 
-    await deploy();
+    const tnx = await box.increment();
+    console.log(tnx);
+
+    console.log((await box.retrieve()).toString());
 }
 
 main()

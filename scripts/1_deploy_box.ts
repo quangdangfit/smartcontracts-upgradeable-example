@@ -1,7 +1,7 @@
 import "@nomiclabs/hardhat-ethers";
 import "@openzeppelin/hardhat-upgrades";
-import { upgrades, ethers } from "hardhat";
-import { Contract } from "ethers";
+import {ethers, upgrades} from "hardhat";
+import {Contract} from "ethers";
 
 async function main() {
     const [owner] = await ethers.getSigners();
@@ -13,7 +13,7 @@ async function main() {
     const deploy = async () => {
         const Box = await ethers.getContractFactory('Box');
         console.log('Deploying Box...');
-        box = await (await upgrades.deployProxy(Box, [42], { initializer: 'store' })).deployed();
+        box = await (await upgrades.deployProxy(Box, [42])).deployed();
         console.log('Box deployed to:', box.address);
     }
 
